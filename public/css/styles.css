@@ -1,0 +1,99 @@
+/*
+  Ed Wied
+  January 15, 2022
+  CS 361 Final Project - What the Bing?!
+*/
+
+/*  -------------------------------------------- GENERAL */
+html, body {
+  margin: 0px;
+  padding: 0px;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #eff7fa;
+}
+
+h1 {
+  color: #000000;
+  font-size: 1.2em;
+  margin: 0px 0px 20px 0px;
+  padding: 0px;
+}
+
+p {
+  color: #000000;
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
+#mainContent {
+  width: 1260px;
+  margin: 25px 0px 0px 85px;
+  padding: 0px;
+}
+
+#returnToHomeScreenDiv {
+  margin: 30px 0px 60px 0px;
+  padding: 0px;
+}
+
+/*  -------------------------------------------- Navigation */
+.navContainer {
+  width: 100%;
+  height: 50px;
+  background-color: #486edf;
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
+.navigation ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 17px 0px 0px 85px;
+}
+
+.navigation li {
+  display: inline;
+  margin: 0px 40px 0px 0px;
+}
+
+.navigation a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navigation a:hover {
+  /* background-color: #333333; */
+  text-decoration: underline;
+  color: #000000;
+}
+
+/* .navigation > li:last-child {
+    float:right;
+} */
+
+.hideLink {
+  display: none;
+}
+
+.showLink {
+  display: block;
+}
+
+/*  -------------------------------------------- 404 */
+.large404 {
+  font-size: 4em;
+}
+
+
+/*  -------------------------------------------- Game */
+#gameTimer {
+  font-size: 6em;
+  float: left;
+  height: 150px;
+  width: 150px;
+  margin: 0px 15px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}

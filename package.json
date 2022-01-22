@@ -1,0 +1,22 @@
+{
+  "name": "What-the-Bing-UI-service",
+  "version": "1.0.0",
+  "description": "The UI service for the What the Bing game",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js",
+    "devl": "nodemon ./src/app.js -e js,css,handlebars"
+  },
+  "keywords": [],
+  "author": "Ed Wued",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "express-handlebars": "^5.3.4",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
