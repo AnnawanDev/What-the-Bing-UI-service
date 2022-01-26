@@ -10,6 +10,8 @@
 let numberCorrect = 0;
 let wordsToGuess = [];
 let currentIndexForWordToGuess = 0;
+const apiServiceToGetWords = "http://localhost:5000/api/wordList";
+const apiFetchImage = "http://localhost:4000/images/";
 
 document.addEventListener("DOMContentLoaded", async function(event) {
   //mix up words
@@ -31,10 +33,9 @@ function togglePlayVisibility() {
 }
 
 async function getWordList() {
-  let url = 'http://localhost:3000/api/wordList';  //move URL to config
   let headers = {};
   try {
-      let res = await fetch(url);
+      let res = await fetch(apiServiceToGetWords);
       return await res.json();
   } catch (error) {
       console.log("fetch images error: " + error);
@@ -43,7 +44,7 @@ async function getWordList() {
 
 function showBoardAndStartGame() {
   //configure game time
-  let totalGameTime = 30;
+  let totalGameTime = 90;
 
   //set up initial game state so only instructions appear
   document.getElementById('readyToPlayDiv').style.display = "none";
@@ -96,7 +97,7 @@ function displayFinalWord() {
 
 
 async function fetchImages(searchTerm) {
-    let url = 'http://localhost:4000/images/' + searchTerm;  //move URL to config
+    let url = apiFetchImage + searchTerm;  //move to server side
     let headers = {};
     try {
         let res = await fetch(url, {

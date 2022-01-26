@@ -9,8 +9,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const _ = require('underscore');
-
 
 // set-up Express --------------------------------------------------------------
 const app = express();
@@ -42,16 +40,6 @@ app.get('/play', (req,res) => {
     title: 'What the Bing?! - Play!'
   });
 });
-
-
-// ----- Helper APIs -----
-app.get('/api/wordList', (req, res) => {
-  const wordsToGuess = ["basketball", "slope", "snow", "summer", "knight", "javascript", "sword", "lake", "hawaii", "volcano", "oregon", "mountain", "fish", "shark", "river", "horse", "cat", "penguin", "minecraft", "laptop", "java", "python", "GitHub", "dog", "heart"];
-  let wordsInNewOrder = _.shuffle(wordsToGuess)
-
-  res.status(200).send(wordsInNewOrder);
-});
-
 
 //display 404 to anything else
 app.get('*', (req, res) => {
