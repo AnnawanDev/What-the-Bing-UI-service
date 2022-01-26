@@ -139,17 +139,9 @@ async function fetchImages(searchTerm) {
 
 async function displayImages() {
     let images = await fetchImages(wordsToGuess[currentIndexForWordToGuess]);
-    // let html = '';
-    // users.forEach(user => {
-    //     let htmlSegment = `<div class="user">
-    //                         <img src="${user.profileURL}" >
-    //                         <h2>${user.firstName} ${user.lastName}</h2>
-    //                         <div class="email"><a href="email:${user.email}">${user.email}</a></div>
-    //                     </div>`;
-    //
-    //     html += htmlSegment;
-    // });
 
+    //TODO - switch to for loop
+    //TODO - need to check for 4xx on image so a broken image is not displayed
     let container0 = document.querySelector('#image0');
     container0.src = `${images.imagePath0}`;
 
