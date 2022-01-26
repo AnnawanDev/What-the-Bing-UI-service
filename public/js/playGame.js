@@ -21,9 +21,31 @@ document.addEventListener("DOMContentLoaded", async function(event) {
   //set up initial game state so only instructions appear
   togglePlayVisibility();
 
-  //wire up button to start game on click
-  document.getElementById("gameStart").addEventListener("click", showBoardAndStartGame);
+  //begin countdown timer to play
+  startCountdownTimerToPlay();
+
 });
+
+let theGameCountdownClock;
+function startCountdownTimerToPlay() {
+  let theCountdownDiv = document.getElementById('getReadyCountdownTimer');
+
+  let totalCountdown = 3;
+  let starting = 0;
+  theGameCountdownClock = setInterval(function() {
+
+    if (totalCountdown - starting <= -1) {
+      clearInterval(theGameCountdownClock);
+      showBoardAndStartGame();
+    } else {
+
+      updatedValue = totalCountdown - starting;
+      starting++;
+      document.getElementById('getReadyCountdownTimer').innerHTML = updatedValue;
+    }
+  }, 1000);
+
+}
 
 function togglePlayVisibility() {
   document.getElementById('readyToPlayDiv').style.display = "block";
@@ -47,7 +69,12 @@ function showBoardAndStartGame() {
   let totalGameTime = 90;
 
   //set up initial game state so only instructions appear
-  document.getElementById('readyToPlayDiv').style.display = "none";
+  //TODO: Need function to add/remove blocks from DOM rather than style.display
+  //document.getElementById('readyToPlayDiv').style.display = "none !important;";
+  document.getElementById('getReadyToPlayImage').style.display = "none";
+  document.getElementById('readyToPlayDiv').remove();
+
+
   document.getElementById('theGameDiv').style.display = "block";
   document.getElementById('searchInputBoxDiv').style.diplay = "block";
   document.getElementById('gameOverDiv').style.display = "none";
@@ -163,13 +190,13 @@ function switchImagesToLoading() {
   document.getElementById('image7').src = "/images/loading.jpg";
 }
 
-
+let theGameTimer;
 function startGame(totalGameTime) {
   let starting = 0;
-  let runGame = setInterval(function() {
+  theGameTimer = setInterval(function() {
 
     if (totalGameTime - starting <= -1) {
-      //clearInterval();
+      clearInterval(theGameTimer);
       stopGame();
     } else {
 

@@ -1,14 +1,14 @@
 <div id="mainContent">
-    <h1>What the Bing?! Play the game!</h1>
-
-    <div id="readyToPlayDiv">
-      <h2>How to play</h2>
-      <p>Blah.. blah.. some instructions go here</p>
-
-      <button id="gameStart" style="margin-top: 50px;">Press here to start</button>
+    <!-- <h1>What the Bing?! Play the game!</h1> -->
+    <img src="/images/get-ready.jpg" width="500" height="500" alt="" id="getReadyToPlayImage" />
+    <div id="readyToPlayDiv" >
+      <div style="position: relative; top: -330px; left: 190px">
+        <div style="font-size: 1.5em;">Get ready in....</div>
+        <div id="getReadyCountdownTimer" style="font-size: 7em;">3</div>
+      </div>
     </div>
 
-    <div id="theGameDiv">
+    <div id="theGameDiv" style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px;">
       <div id="gameBoard" style="float: left;">
         <img id="image0" src="/images/loading.jpg" height="150" width="150" style="float: left; margin: 0px 15px 0px 0px; padding: 0px;" />
         <img id="image1" src="/images/loading.jpg" height="150" width="150" style="float: left; margin: 0px 15px 0px 0px; padding: 0px;" />
@@ -31,8 +31,6 @@
       </div>
 
       <div id="statusArea" style="float: left;">
-
-
         <div id="searchInputBoxDiv" style="background-color: #486edf; padding: 50px; margin: 0px 0px 0px 30px;">
           <p style="color: #ffffff;">Guess the search term used: </p>
           <input type="text" id="inputGuessSearch" />
