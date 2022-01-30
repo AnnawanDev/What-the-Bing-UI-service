@@ -6,15 +6,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./src/app.js",
-    "devl": "nodemon ./src/app.js -e js,css,handlebars"
+    "devl": "nodemon ./src/app.js -e js,css,handlebars",
+    "startProd": "./node_modules/forever/bin/forever start src/app.js",
+    "stopProd": "./node_modules/forever/bin/forever stop src/app.js"
   },
   "keywords": [],
   "author": "Ed Wued",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.25.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
     "express-handlebars": "^5.3.4",
-    "path": "^0.12.7"
+    "express-mysql-session": "^2.1.7",
+    "express-session": "^1.17.2",
+    "forever": "^4.0.3",
+    "path": "^0.12.7",
+    "underscore": "^1.13.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

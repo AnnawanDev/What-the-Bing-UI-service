@@ -12,24 +12,24 @@ let wordsToGuess = [];
 let currentIndexForWordToGuess = 0;
 const apiServiceToGetWords = "http://localhost:5000/api/wordList";
 const apiFetchImage = "http://localhost:4000/images/";
+let theGameCountdownClock;
 
 document.addEventListener("DOMContentLoaded", async function(event) {
   //mix up words
-  wordsToGuess = await getWordList();  //todo - get words one at a time from game manager service
-  console.log(wordsToGuess);
+  //OLD - moving to server side
+  // wordsToGuess = await getWordList();
+  // console.log(wordsToGuess);
 
   //set up initial game state so only instructions appear
   togglePlayVisibility();
 
   //begin countdown timer to play
   startCountdownTimerToPlay();
-
 });
 
-let theGameCountdownClock;
+
 function startCountdownTimerToPlay() {
   let theCountdownDiv = document.getElementById('getReadyCountdownTimer');
-
   let totalCountdown = 3;
   let starting = 0;
   theGameCountdownClock = setInterval(function() {
@@ -44,7 +44,6 @@ function startCountdownTimerToPlay() {
       document.getElementById('getReadyCountdownTimer').innerHTML = updatedValue;
     }
   }, 1000);
-
 }
 
 function togglePlayVisibility() {
@@ -122,10 +121,25 @@ function displayFinalWord() {
   document.getElementById('finalWord').innerHTML = "It was <span style=\"font-size: 3em\">" + wordsToGuess[currentIndexForWordToGuess] + "</span>";
 }
 
+//OLD
+// async function fetchImages(searchTerm) {
+//     let url = apiFetchImage + searchTerm;  //move to server side
+//     let headers = {};
+//     try {
+//         let res = await fetch(url, {
+//           method: 'GET',
+//           mode: 'cors'
+//         });
+//         return await res.json();
+//     } catch (error) {
+//         console.log("fetch images error: " + error);
+//     }
+// }
 
+//NEW
 async function fetchImages(searchTerm) {
-    let url = apiFetchImage + searchTerm;  //move to server side
-    let headers = {};
+    let url = "http://localhost:3000/api/getCurrentImage";
+    let headers = {};  //need to send cookie
     try {
         let res = await fetch(url, {
           method: 'GET',
@@ -136,6 +150,8 @@ async function fetchImages(searchTerm) {
         console.log("fetch images error: " + error);
     }
 }
+
+
 
 async function displayImages() {
     let images = await fetchImages(wordsToGuess[currentIndexForWordToGuess]);
