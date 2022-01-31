@@ -14,6 +14,8 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 // const cookieParser = require('cookie-parser');
 const axios = require('axios');
+const { logIt, getImageServiceURL } = require('./utilities/helperFunctions.js');
+const { LOCAL_PORT, OSU_PORT, RUNNING_LOCAL } = require('./utilities/config.js');
 
 //set up mysql-session store
 var options = {
@@ -29,7 +31,7 @@ var sessionStore = new MySQLStore(options);
 
 // set-up Express --------------------------------------------------------------
 const app = express();
-const port = 3000;
+const port = RUNNING_LOCAL ? LOCAL_PORT : OSU_PORT;
 const publicDirectory = path.join(__dirname, '../public');
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -125,7 +127,7 @@ app.get('/api/getCurrentImage', async (req, res) => {
 
 
   let searchTerm = "chess";
-  let url = "http://localhost:4000/images/" + searchTerm;  //will need to get search term from session
+  let url = getImageServiceURL() + searchTerm;  //will need to get search term from session
   axios.get(url)
   .then(function (response) {
     // handle success
@@ -173,5 +175,5 @@ async function getWordList() {
 
 // start-up Express  -----------------------------------------------------------
 app.listen(port, () => {
-  console.log("What the Bing?! UI Service has started on port " + port);
+  logIt("What the Bing?! UI Service has started on port " + port);
 });

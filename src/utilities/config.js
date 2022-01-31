@@ -9,5 +9,9 @@
 
 module.exports = Object.freeze({
     ENABLE_LOGGING: true,
-    RUNNING_LOCAL: true
+    RUNNING_LOCAL: true,
+    LOCAL_IMAGE_SERVICE: 'http://localhost:4000/images/',
+    OSU_IMAGE_SERVICE: 'http://flip3.engr.oregonstate.edu:12789/images/',
+    LOCAL_PORT: 3000,
+    OSU_PORT: 12073
 });
