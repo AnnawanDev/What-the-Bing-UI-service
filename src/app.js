@@ -12,12 +12,15 @@ const path = require('path');
 const _ = require('underscore');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const axios = require('axios');
 const { logIt, getImageServiceURL } = require('./utilities/helperFunctions.js');
 const { LOCAL_PORT, OSU_PORT, RUNNING_LOCAL } = require('./utilities/config.js');
 
 //set up mysql-session store
+//todo -
+// 1 - setup different environment option toggle
+// 2 - create real credentials and store in .env file
 var options = {
 	host: 'localhost',
 	port: 3306,
@@ -50,9 +53,9 @@ app.use(session({
 	saveUninitialized: false
 }));
 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 // ----- PAGES -----
@@ -82,9 +85,9 @@ app.get('/play', async (req,res) => {
 
   //get list of words to guess
   let wordsToGuess = await getWordList();
-  console.log(wordsToGuess);
-  req.session
-  console.log("SESSION ID: " + req.session.id);
+  logIt("Word to guess: " + wordsToGuess[0]);
+  req.session.wordsToGuess = wordsToGuess;
+  logIt("SESSION ID: " + req.session.id);
 
   //render page
   res.render('play', {
@@ -93,55 +96,16 @@ app.get('/play', async (req,res) => {
 });
 
 
-
-
 // ----- Helper APIs -----------------------------------------------------------
-// app.get('/api/getCurrentImage/:sid', (req, res) => {
-//   if (req.params.sid) {
-//     // let theID = req.params.sid;
-//     //
-//     // let x = sessionStore.get(theID, (error, session) => {
-//     //   console.log("value: " + JSON.stringify(session));
-//     //   res.status(200).send(JSON.stringify(session.currentWordIndex));
-//     // });
-//
-//   } else {
-//     res.status(200).send("can't help");
-//   }
-// });
-
 app.get('/api/getCurrentImage', async (req, res) => {
+	//TODO: Check for valid session
 
-
-  // let headers = {};
-  // try {
-  //     let res = await fetch(url, {
-  //       method: 'GET',
-  //       mode: 'cors'
-  //     });
-  //     return await res.json();
-  // } catch (error) {
-  //     console.log("fetch images error: " + error);
-  //     //todo - need error return value
-  // }
-
-
-  let searchTerm = "chess";
-  let url = getImageServiceURL() + searchTerm;  //will need to get search term from session
+  let searchTerm = req.session.wordsToGuess[req.session.currentWordIndex];
+  let url = getImageServiceURL() + searchTerm + "/8";
+	console.log("URL to fetch: " + url);
   axios.get(url)
   .then(function (response) {
     // handle success
-    console.log(response);
-    // let context = {};
-    // context.imagePath0 = response.data.value[0].contentUrl;
-    // context.imagePath1 = response.data.value[1].contentUrl;
-    // context.imagePath2 = response.data.value[2].contentUrl;
-    // context.imagePath3 = response.data.value[3].contentUrl;
-    // context.imagePath4 = response.data.value[4].contentUrl;
-    // context.imagePath5 = response.data.value[5].contentUrl;
-    // context.imagePath6 = response.data.value[6].contentUrl;
-    // context.imagePath7 = response.data.value[7].contentUrl;
-    // context.imagePath8 = response.data.value[8].contentUrl;
     res.status(200).send(response.data);
   })
   .catch(function (error) {
@@ -149,12 +113,27 @@ app.get('/api/getCurrentImage', async (req, res) => {
     console.log("ERROR: " + error);
     res.status(500).send(error);
   })
+});
 
+app.post('/api/checkGuess', async (req, res) => {
+	console.log("USER GUESS: " + req.body['guess']);
+	let didGetCorrect = false;
 
+	let userGuess = req.body['guess'].toLowerCase();
+	let msg = "";
 
+	if (req.session.wordsToGuess[req.session.currentWordIndex].toLowerCase() === userGuess) {
+		didGetCorrect = true;
+		req.session.currentWordIndex++;
+		console.log("yes - user guess was correct");
+		msg = {"answer":"correct"};
+		//TODO - need to do something here to (1) increment score (2) make sure user isn't above timer
+	} else {
+		console.log("no - user guess was *not* correct");
+		msg = {"answer":"wrong"}
+	}
 
-
-
+	res.status(200).send(msg);
 });
 
 
@@ -170,7 +149,7 @@ app.get('*', (req, res) => {
 async function getWordList() {
   const wordsToGuess = ["basketball", "snow", "summer", "knight", "beach", "sword", "lake", "hawaii", "volcano", "oregon", "mountain", "fish", "shark", "river", "horse", "cat", "penguin", "turtle", "laptop", "chess", "GitHub", "dog", "heart"];
   let wordsInNewOrder = _.shuffle(wordsToGuess)
-  return wordsToGuess;
+  return wordsInNewOrder;
 }
 
 // start-up Express  -----------------------------------------------------------

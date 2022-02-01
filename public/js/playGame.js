@@ -96,19 +96,24 @@ function increasePlayerScore() {
   document.getElementById('playerScore').innerHTML = numberCorrect;
 }
 
-function checkGuess() {
+async function checkGuess() {
   //todo - get word
   //todo - sanitize user input
-  let wordToGuess = wordsToGuess[currentIndexForWordToGuess];
+  
   let userInput = document.getElementById('inputGuessSearch').value.trim().toLowerCase();
 
   //clear out user guess
   document.getElementById('inputGuessSearch').value = '';
 
   //check answer
-  if (wordToGuess.toLowerCase() === userInput.toLowerCase()) {
-    document.getElementById('userGuesses').innerHTML = "<p style=\"margin-top: 20px; color:#ffffff;\">YES! It was " + wordToGuess.toLowerCase() + "</p>";
-    increasePlayerScore(); //todo - make sure user can't hit the right answer multiple times for the same search term
+  let didUserGetCorrect = await checkGuessOnServer(userInput);
+  console.log("didUserGetCorrect: " + didUserGetCorrect)
+
+  //TODO - need to do something here to prevent cheating
+
+  if (didUserGetCorrect == "correct") {
+    document.getElementById('userGuesses').innerHTML = "<p style=\"margin-top: 20px; color:#ffffff;\">YES! It was " + userInput.toLowerCase() + "</p>";
+    increasePlayerScore(); //TODO - make sure user can't hit the right answer multiple times for the same search term
     currentIndexForWordToGuess++;
     switchImagesToLoading();
     displayImages();
@@ -116,6 +121,33 @@ function checkGuess() {
     document.getElementById('userGuesses').innerHTML = "<p style=\"margin-top: 20px; color:#ffffff;\">No - not " + userInput + "</p>";
   }
 }
+
+async function checkGuessOnServer(someGuess) {
+  return new Promise((resolve, reject) => {
+    let data = {guess: someGuess};
+
+    fetch("http://localhost:3000/api/checkGuess", {   //TODO - move URL to function to get endpoint depending on whether running local or not
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    }).then(res => {
+      console.log("Request complete! response:", res);
+      return res.json();
+    }).then((data) => {
+      //console.log ("DATA: " + data);
+      console.log(data.answer);
+      if (data.answer === 'correct') {
+        resolve("correct");
+      } else {
+        resolve("not correct");
+      }
+    }).catch(function(error) {
+      console.log(error);    //TODO - do something with this error handling
+      reject("something went wrong: " + error);
+    });
+  });
+}
+
 
 function displayFinalWord() {
   document.getElementById('finalWord').innerHTML = "It was <span style=\"font-size: 3em\">" + wordsToGuess[currentIndexForWordToGuess] + "</span>";
