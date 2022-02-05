@@ -39,6 +39,25 @@ p {
   padding: 0px;
 }
 
+#addedDescription {
+  margin-top: 15px;
+}
+
+/* #warningText {
+  margin: 30px 0px 0px 0px;
+  color: #000000;
+  font-weight: bold;
+} */
+
+.answer {
+  margin: 0px 0px 15px 0px;
+}
+
+.question {
+  font-weight: bold;
+  margin: 15px 0px 0px 0px;
+}
+
 /*  -------------------------------------------- Navigation */
 .navContainer {
   width: 100%;
