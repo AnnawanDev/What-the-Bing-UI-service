@@ -8,6 +8,9 @@
 document.addEventListener("DOMContentLoaded", async function(event) {
   //wire up start buttoon
   //document.getElementById("gameStart").addEventListener("click", playGame);
+
+  //randomize images
+  setInterval(randomizeImageSquares, 1000);
 });
 
 function playGame() {
@@ -24,4 +27,14 @@ function showHideDescriptionText() {
     document.getElementById('readMoreLink').text = "Read more";
   }
   return false;
+}
+
+function randomizeImageSquares() {
+  let imageID = "image" + getRandomNumber();
+  let imageSrc = '/images/home-loading/image' + getRandomNumber() + '.jpg';
+  document.getElementById(imageID).src = imageSrc;
+}
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * 9);
 }
