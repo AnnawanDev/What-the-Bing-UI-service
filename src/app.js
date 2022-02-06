@@ -172,7 +172,7 @@ async function getWordList() {
 	//does a one-time grab of words from noun service and sets wordlist
 	//we're then storing wordlist in memory rather than grabbing it with every call
 	return new Promise((resolve, reject) => {
-		if (wordlist === undefined) {
+		//if (wordlist === undefined) {
 			//grab list from noun service
 			console.log("FETCHING FROM NOUN SERVICE");
 			let url = getNounURL(); console.log("URL: " + url);
@@ -192,11 +192,12 @@ async function getWordList() {
 		    //res.status(500).send(error);
 				reject(error);
 		  })
-		} else {
-			console.log("using existing wordlist");
-			let wordsInNewOrder = _.shuffle(wordlist)
-			resolve(wordsInNewOrder);
-		}
+		// }
+		// else {
+		// 	console.log("using existing wordlist");
+		// 	let wordsInNewOrder = _.shuffle(wordlist)
+		// 	resolve(wordsInNewOrder);
+		// }
 	});
 }
 
