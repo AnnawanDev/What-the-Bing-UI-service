@@ -22,6 +22,7 @@ let wordlist = undefined;
 //todo -
 // 1 - setup different environment option toggle
 // 2 - create real credentials and store in .env file
+//setup option code from https://www.npmjs.com/package/express-mysql-session -- Feb 6, 2022
 var options = {
 	host: 'localhost',
 	port: 3306,
@@ -136,6 +137,15 @@ app.post('/api/checkGuess', async (req, res) => {
 	}
 
 	res.status(200).send(msg);
+});
+
+app.get('/api/getCurrentSearchTerm', async (req, res) => {
+	//TODO: Check for valid session
+	//TODO: If so, destroy session
+
+  const searchTerm = req.session.wordsToGuess[req.session.currentWordIndex];
+	console.log("RETURNING SEARCH TERM: " + searchTerm);
+  res.status(200).send({searchTerm: searchTerm});
 });
 
 

@@ -13,6 +13,7 @@ let currentIndexForWordToGuess = 0;
 const apiServiceToGetWords = "http://localhost:5000/api/wordList";
 const apiFetchImage = "http://localhost:4000/images/";
 let theGameCountdownClock;
+const TOTAL_GAME_TIME = 3;
 
 document.addEventListener("DOMContentLoaded", async function(event) {
   //mix up words
@@ -68,7 +69,7 @@ async function getWordList() {
 
 function showBoardAndStartGame() {
   //configure game time
-  let totalGameTime = 90;
+  let totalGameTime = TOTAL_GAME_TIME;
 
   //set up initial game state so only instructions appear
   //TODO: Need function to add/remove blocks from DOM rather than style.display
@@ -152,8 +153,64 @@ async function checkGuessOnServer(someGuess) {
 }
 
 
-function displayFinalWord() {
-  document.getElementById('finalWord').innerHTML = "It was <span style=\"font-size: 3em\">" + wordsToGuess[currentIndexForWordToGuess] + "</span>";
+async function displayFinalWord() {
+
+  let finalSearchTerm = await getFinalTerm();
+  console.log("final search term: " + finalSearchTerm);
+  document.getElementById('finalWord').innerHTML = "It was <span style=\"font-size: 3em\">" + finalSearchTerm + "</span>";
+}
+
+async function getFinalTerm() {
+
+
+    return new Promise((resolve, reject) => {
+      fetch("http://localhost:3000/api/getCurrentSearchTerm", {   //TODO - move URL to function to get endpoint depending on whether running local or not
+        method: "GET",
+        headers: {'Content-Type': 'application/json'},
+      }).then(res => {
+        //console.log("Request complete! response:", res);
+        return res.json();
+      }).then((data) => {
+        console.log ("DATA: " + data.searchTerm); 
+        //console.log(data.answer);
+        // if (data.answer === 'correct') {
+        //   resolve("correct");
+        // } else {
+        //   resolve("not correct");
+        // }
+        resolve(data.searchTerm);
+      }).catch(function(error) {
+        console.log(error);    //TODO - do something with this error handling
+        reject("something went wrong: " + error);
+      });
+    });
+
+
+//     let url = "http://localhost:3000/api/getCurrentSearchTerm";
+//     let headers = {};  //need to send cookie
+//     try {
+//         let res = await fetch(url, {
+//           method: 'GET',
+//           mode: 'cors'
+//         });
+//         // console.log(res.json());
+//         // return await res.json();
+//
+//         let term = await res.json();
+//         console.log("TERM: " + term);
+//
+//         return new Promise((resolve, reject) => {
+// resolve(term);
+//         });
+//
+//
+//
+//     } catch (error) {
+//         console.log("fetch images error: " + error);
+//     }
+
+
+
 }
 
 //OLD
