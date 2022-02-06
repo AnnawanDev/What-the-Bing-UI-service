@@ -4,8 +4,7 @@
   CS 361 Final Project - What the Bing?!
 */
 
-let numImages = 14;
-const resetNumberOfImages = 14;
+let numImages = 31;
 let imageArray;
 
 
@@ -72,7 +71,7 @@ function popOffOneOfTheImages() {
 
   if (arrayLength == 0) {
     //need to repopulate array
-    imageArray = setUpImageArray(14);
+    imageArray = setUpImageArray(numImages);
   }
 
   let getRandomNumberToPop = getRandomNumber(arrayLength);

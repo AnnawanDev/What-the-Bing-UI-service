@@ -157,7 +157,7 @@ async function displayFinalWord() {
 
   let finalSearchTerm = await getFinalTerm();
   console.log("final search term: " + finalSearchTerm);
-  document.getElementById('finalWord').innerHTML = "It was <span style=\"font-size: 3em\">" + finalSearchTerm + "</span>";
+  document.getElementById('finalWord').innerHTML = "It was <span style=\"font-size: 2em\">" + finalSearchTerm + "</span>";
 }
 
 async function getFinalTerm() {
