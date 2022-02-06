@@ -33,8 +33,11 @@
       <div id="statusArea" style="float: left;">
         <div id="searchInputBoxDiv" style="background-color: #486edf; padding: 50px; margin: 0px 0px 0px 30px;">
           <p style="color: #ffffff;">Guess the search term used: </p>
-          <input type="text" id="inputGuessSearch" />
-          <button id="btnGuessSearch">Submit</button>
+          <form onsubmit="return false;">
+            <input type="text" id="inputGuessSearch" />
+            <!-- <button id="btnGuessSearch">Submit</button> -->
+            <input type="submit" value="submit" id="btnGuessSearch" />
+          </form>
           <div id="userGuesses"></div>
         </div>
 

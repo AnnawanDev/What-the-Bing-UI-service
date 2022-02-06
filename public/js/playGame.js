@@ -37,6 +37,9 @@ function startCountdownTimerToPlay() {
     if (totalCountdown - starting <= -1) {
       clearInterval(theGameCountdownClock);
       showBoardAndStartGame();
+
+      //set user focus to input box
+      document.getElementById("inputGuessSearch").focus();
     } else {
 
       updatedValue = totalCountdown - starting;
@@ -99,7 +102,7 @@ function increasePlayerScore() {
 async function checkGuess() {
   //todo - get word
   //todo - sanitize user input
-  
+
   let userInput = document.getElementById('inputGuessSearch').value.trim().toLowerCase();
 
   //clear out user guess
