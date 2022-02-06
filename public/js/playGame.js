@@ -13,7 +13,7 @@ let currentIndexForWordToGuess = 0;
 const apiServiceToGetWords = "http://localhost:5000/api/wordList";
 const apiFetchImage = "http://localhost:4000/images/";
 let theGameCountdownClock;
-const TOTAL_GAME_TIME = 3;
+const TOTAL_GAME_TIME = 90;
 
 document.addEventListener("DOMContentLoaded", async function(event) {
   //mix up words
@@ -171,46 +171,13 @@ async function getFinalTerm() {
         //console.log("Request complete! response:", res);
         return res.json();
       }).then((data) => {
-        console.log ("DATA: " + data.searchTerm); 
-        //console.log(data.answer);
-        // if (data.answer === 'correct') {
-        //   resolve("correct");
-        // } else {
-        //   resolve("not correct");
-        // }
+        console.log ("DATA: " + data.searchTerm);
         resolve(data.searchTerm);
       }).catch(function(error) {
         console.log(error);    //TODO - do something with this error handling
         reject("something went wrong: " + error);
       });
     });
-
-
-//     let url = "http://localhost:3000/api/getCurrentSearchTerm";
-//     let headers = {};  //need to send cookie
-//     try {
-//         let res = await fetch(url, {
-//           method: 'GET',
-//           mode: 'cors'
-//         });
-//         // console.log(res.json());
-//         // return await res.json();
-//
-//         let term = await res.json();
-//         console.log("TERM: " + term);
-//
-//         return new Promise((resolve, reject) => {
-// resolve(term);
-//         });
-//
-//
-//
-//     } catch (error) {
-//         console.log("fetch images error: " + error);
-//     }
-
-
-
 }
 
 //OLD

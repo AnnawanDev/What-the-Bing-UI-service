@@ -140,11 +140,17 @@ app.post('/api/checkGuess', async (req, res) => {
 });
 
 app.get('/api/getCurrentSearchTerm', async (req, res) => {
-	//TODO: Check for valid session
-	//TODO: If so, destroy session
+	//TODO: Check for valid session -- only return value if session is valid
 
   const searchTerm = req.session.wordsToGuess[req.session.currentWordIndex];
-	console.log("RETURNING SEARCH TERM: " + searchTerm);
+	logIt("RETURNING SEARCH TERM: " + searchTerm);
+
+	//TODO: capture game stats?  make sure that time wasn't greater than 90 seconds?
+
+	//destroy the session so that new game is on another session
+	req.session.destroy();
+
+	//return search term
   res.status(200).send({searchTerm: searchTerm});
 });
 
