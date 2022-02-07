@@ -9,9 +9,6 @@ let imageArray;
 
 
 document.addEventListener("DOMContentLoaded", async function(event) {
-  //wire up start buttoon
-  //document.getElementById("gameStart").addEventListener("click", playGame);
-
   imageArray = setUpImageArray(numImages);
 
   //randomize images
@@ -19,10 +16,6 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 
 
 });
-
-function playGame() {
-  window.location = "/play";
-}
 
 function showHideDescriptionText() {
   let currentState = document.getElementById('addedDescription').style.display;
@@ -36,19 +29,28 @@ function showHideDescriptionText() {
   return false;
 }
 
-function randomizeImageSquares() {
+async function randomizeImageSquares() {
   let imageID = "image" + getRandomNumber(9);
   //let imageSrc = '/images/home-loading/image' + getRandomNumber(14) + '.jpg';
 
+  //get random number
+  let randomNumber = getRandomNumber(100);
+
   //get random image to update
-  let itemToShow = '/images/home-loading/' + popOffOneOfTheImages() + '.jpg';
+  //if randomNumber is < 3, then chose from Bing API from a random word
+  //otherwise, choose default image to load
+  let itemToShow;
+  if (randomNumber < 10) {
+    itemToShow = await getRandomImage();
+    console.log("USING: " + itemToShow.imagePath0);
+  } else {
+    itemToShow = '/images/home-loading/' + popOffOneOfTheImages() + '.jpg';
+  }
 
   //image #4 is the text "Play What the Bing" so don't change that
   if (imageID != "image4") {
     document.getElementById(imageID).src = itemToShow; //imageSrc;
   }
-
-
 }
 
 function getRandomNumber(highNumberNotInclusive) {
@@ -64,8 +66,6 @@ function setUpImageArray(numberOfImages) {
 }
 
 function popOffOneOfTheImages() {
-  //console.log("STARTING: " + imageArray);
-
   //get array length
   let arrayLength = imageArray.length;
 
@@ -80,4 +80,31 @@ function popOffOneOfTheImages() {
   //console.log(item);
   //console.log("ENDING: " + imageArray);
   return item;
+}
+
+async function getRandomImage() {
+  return new Promise((resolve, reject) => {
+
+    fetch("http://localhost:3000/api/getRandomImage", {   //TODO - move URL to function to get endpoint depending on whether running local or not
+      method: "GET",
+      headers: {'Content-Type': 'application/json'}
+    }).then(res => {
+      console.log("Request complete! response:", res);
+      return res.json();
+    }).then((data) => {
+
+      console.log("IMAGE: " + data.imagePath0);
+      resolve(data.imagePath0);
+      //console.log ("DATA: " + data);
+      // console.log(data.answer);
+      // if (data.answer === 'correct') {
+      //   resolve("correct");
+      // } else {
+      //   resolve("not correct");
+      // }
+    }).catch(function(error) {
+      console.log(error);    //TODO - do something with this error handling
+      reject("something went wrong: " + error);
+    });
+  });
 }

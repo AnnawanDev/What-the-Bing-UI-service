@@ -87,7 +87,6 @@ app.get('/play', async (req,res) => {
 
   //get list of words to guess
   let wordsToGuess = await getWordList();
-	console.log("getWordList() results: " + wordsToGuess);
   logIt("Word to guess: " + wordsToGuess[0]);
   req.session.wordsToGuess = wordsToGuess;
   logIt("SESSION ID: " + req.session.id);
@@ -154,6 +153,30 @@ app.get('/api/getCurrentSearchTerm', async (req, res) => {
   res.status(200).send({searchTerm: searchTerm});
 });
 
+app.get('/api/getRandomImage', async (req, res) => {
+	//get list of words
+	let wordsToGuess = await getWordList();
+
+	//randomize list
+	let wordsInNewOrder = _.shuffle(wordsToGuess);
+
+	//use the first word from list
+	let searchTerm = wordsInNewOrder[0]
+
+	let url = getImageServiceURL() + searchTerm + "/1";
+	console.log("URL to fetch: " + url);
+  axios.get(url)
+  .then(function (response) {
+    // handle success
+    res.status(200).send(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log("ERROR: " + error);
+    res.status(500).send(error);
+  })
+})
+
 
 // ----- Display 404 to anything else ------------------------------------------
 app.get('*', (req, res) => {
@@ -165,15 +188,7 @@ app.get('*', (req, res) => {
 
 // helper functions  -----------------------------------------------------------
 async function getWordList() {
-  // const wordsToGuess = ["basketball", "snow", "summer", "knight", "beach", "sword", "lake", "hawaii", "volcano", "oregon", "mountain", "fish", "shark", "river", "horse", "cat", "penguin", "turtle", "laptop", "chess", "GitHub", "dog", "heart"];
-  // let wordsInNewOrder = _.shuffle(wordsToGuess)
-  // return wordsInNewOrder;
-
-	//does a one-time grab of words from noun service and sets wordlist
-	//we're then storing wordlist in memory rather than grabbing it with every call
 	return new Promise((resolve, reject) => {
-		//if (wordlist === undefined) {
-			//grab list from noun service
 			console.log("FETCHING FROM NOUN SERVICE");
 			let url = getNounURL(); console.log("URL: " + url);
 
@@ -192,12 +207,6 @@ async function getWordList() {
 		    //res.status(500).send(error);
 				reject(error);
 		  })
-		// }
-		// else {
-		// 	console.log("using existing wordlist");
-		// 	let wordsInNewOrder = _.shuffle(wordlist)
-		// 	resolve(wordsInNewOrder);
-		// }
 	});
 }
 
