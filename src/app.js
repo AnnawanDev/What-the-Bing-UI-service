@@ -69,6 +69,13 @@ app.get('/', (req, res) => {
 });
 
 // FAQ page
+app.get('/How-to-Play', (req, res) => {
+  res.render('how-to-play', {
+    title: 'What the Bing?! - How to Play'
+  });
+});
+
+// FAQ page
 app.get('/FAQ', (req, res) => {
   res.render('FAQ', {
     title: 'What the Bing?! - FAQ'

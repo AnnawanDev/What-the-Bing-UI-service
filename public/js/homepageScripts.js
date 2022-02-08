@@ -42,7 +42,6 @@ async function randomizeImageSquares() {
   let itemToShow;
   if (randomNumber < 10) {
     itemToShow = await getRandomImage();
-    console.log("USING: " + itemToShow.imagePath0);
   } else {
     itemToShow = '/images/home-loading/' + popOffOneOfTheImages() + '.jpg';
   }
