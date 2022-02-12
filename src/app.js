@@ -15,7 +15,6 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config({path: __dirname + '/.env'})
 const { logIt, getImageServiceURL, getDBConnection, getWordList } = require('./utilities/helperFunctions.js');
 const { LOCAL_PORT, OSU_PORT, RUNNING_LOCAL } = require('./utilities/config.js');
-let wordlist = undefined;
 
 //set up mysql-session store
 //todo -
@@ -33,12 +32,6 @@ const publicDirectory = path.join(__dirname, '../public');
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static(publicDirectory));
-// app.use(session({
-//   secret: `process.env.SESSION_PASSWORD`,
-//   cookie: { maxAge: 1000*3 },
-//   resave: false,
-//   saveUninitialized: true
-// }));
 app.use(session({
 	key: 'session_cookie_name',
 	secret: 'session_cookie_secret',
@@ -52,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-// Page routers -----------------------------------------------
+// Page & API routers ----------------------------------------------------------
 const homePage = require('./routers/homePage.js');
 const howToPlayPage = require('./routers/how-to-play-page.js');
 const faqPage = require('./routers/faqPage.js');

@@ -7,7 +7,7 @@
 const axios = require('axios');
 const _ = require('underscore');
 const { ENABLE_LOGGING, RUNNING_LOCAL, LOCAL_IMAGE_SERVICE, OSU_IMAGE_SERVICE, LOCAL_NOUN_SERVICE, OSU_NOUN_SERVICE } = require('./config.js');
-
+let wordlist = undefined;
 
 //common function to log messages to console rather than use console.log for everyone
 function logIt(someMessage) {
