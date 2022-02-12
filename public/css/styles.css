@@ -58,6 +58,32 @@ p {
   margin: 15px 0px 0px 0px;
 }
 
+.floatLeft {
+  float: left;
+}
+
+.clearMarginPadding {
+  clear: both;
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
+.marginRight15 {
+  margin-right: 15px;
+}
+
+.marginLeft15 {
+  margin-left: 15px;
+}
+
+.marginTop15 {
+  margin-top: 15px;
+}
+
+.marginTop50 {
+  margin-top: 50px;
+}
+
 /*  -------------------------------------------- Navigation */
 .navContainer {
   width: 100%;
@@ -115,4 +141,39 @@ p {
   width: 150px;
   margin: 0px 15px 0px 0px;
   padding: 0px 0px 0px 0px;
+}
+
+/*  -------------------------------------------- Homepage */
+.homePageImageSquares {
+  float: left;
+  margin: 0px 15px 0px 0px;
+  padding: 0px;
+}
+
+.homePageCenterSquareWrapper {
+  float: left;
+  margin: 0px 15px 0px 0px;
+  padding: 0px;
+  width: 150px;
+  height: 150px;
+  font-size: 1.5em;
+  color: #000000;
+  font-weight: bold;
+}
+
+.homePageCenterSquareText {
+  margin: 10px auto 0px auto;
+  width: 50%;
+}
+
+.endOfImageRow {
+  clear: both;
+  margin: 0px 0px 15px 0px;
+  padding: 0px;
+}
+
+.rightBlockText {
+  width: 300px;
+  float: left;
+  margin-left: 75px;
 }
