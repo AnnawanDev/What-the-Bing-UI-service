@@ -13,5 +13,7 @@ module.exports = Object.freeze({
     LOCAL_IMAGE_SERVICE: 'http://localhost:4000/images/',
     OSU_IMAGE_SERVICE: 'http://flip3.engr.oregonstate.edu:12789/images/',
     LOCAL_PORT: 3000,
-    OSU_PORT: 12073
+    OSU_PORT: 12073,
+    LOCAL_NOUN_SERVICE: 'http://localhost:5001/words',
+    OSU_NOUN_SERVICE: 'http://flip3.engr.oregonstate.edu:13789/words'
 });
