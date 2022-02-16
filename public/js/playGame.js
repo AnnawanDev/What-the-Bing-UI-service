@@ -10,8 +10,18 @@
 let numberCorrect = 0;
 let wordsToGuess = [];
 let currentIndexForWordToGuess = 0;
-const apiServiceToGetWords = "http://localhost:5000/api/wordList";
-const apiFetchImage = "http://localhost:4000/images/";
+const runningLocal = false;
+const apiServiceToGetWordsLOCAL = "http://localhost:5000/api/wordList";
+const apiServiceToGetWordsOSU = "http://flip3.engr.oregonstate.edu:13789/api/wordList";
+const apiFetchImageLOCAL = "http://localhost:4000/images/";
+const apiFetchImageOSU = "http://flip3.engr.oregonstate.edu:12789/images/";
+const checkGuessAPILOCAL = "http://localhost:3000/api/checkGuess";
+const checkGuessAPIOSU = "http://flip3.engr.oregonstate.edu:12073/api/checkGuess";
+const getCurrentSearchTermAPILOCAL = "http://localhost:3000/api/getCurrentSearchTerm";
+const getCurrentSearchTermAPIOSU = "http://flip3.engr.oregonstate.edu:12073/api/getCurrentSearchTerm";
+const getCurrentImageAPILOCAL = "http://localhost:3000/api/getCurrentImage";
+const getCurrentImageAPIOSU = "http://flip3.engr.oregonstate.edu:12073/api/getCurrentImage";
+
 let theGameCountdownClock;
 const TOTAL_GAME_TIME = 90;
 
@@ -129,8 +139,9 @@ async function checkGuess() {
 async function checkGuessOnServer(someGuess) {
   return new Promise((resolve, reject) => {
     let data = {guess: someGuess};
-
-    fetch("http://localhost:3000/api/checkGuess", {   //TODO - move URL to function to get endpoint depending on whether running local or not
+    let checkGuessURL = runningLocal ? checkGuessAPILOCAL : checkGuessAPIOSU;
+    //"http://localhost:3000/api/checkGuess"
+    fetch(checkGuessURL, {   //TODO - move URL to function to get endpoint depending on whether running local or not
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -164,7 +175,9 @@ async function getFinalTerm() {
 
 
     return new Promise((resolve, reject) => {
-      fetch("http://localhost:3000/api/getCurrentSearchTerm", {   //TODO - move URL to function to get endpoint depending on whether running local or not
+      let getCurrentSearchTermURL = runningLocal ? getCurrentSearchTermAPILOCAL : getCurrentSearchTermAPIOSU;
+      //http://localhost:3000/api/getCurrentSearchTerm
+      fetch(getCurrentSearchTermURL, {   //TODO - move URL to function to get endpoint depending on whether running local or not
         method: "GET",
         headers: {'Content-Type': 'application/json'},
       }).then(res => {
@@ -180,24 +193,10 @@ async function getFinalTerm() {
     });
 }
 
-//OLD
-// async function fetchImages(searchTerm) {
-//     let url = apiFetchImage + searchTerm;  //move to server side
-//     let headers = {};
-//     try {
-//         let res = await fetch(url, {
-//           method: 'GET',
-//           mode: 'cors'
-//         });
-//         return await res.json();
-//     } catch (error) {
-//         console.log("fetch images error: " + error);
-//     }
-// }
 
 //NEW
 async function fetchImages(searchTerm) {
-    let url = "http://localhost:3000/api/getCurrentImage";
+    let url = runningLocal ? getCurrentImageAPILOCAL : getCurrentImageAPIOSU; //"http://localhost:3000/api/getCurrentImage";
     let headers = {};  //need to send cookie
     try {
         let res = await fetch(url, {

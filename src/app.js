@@ -17,10 +17,6 @@ const { logIt, getImageServiceURL, getDBConnection, getWordList } = require('./u
 const { LOCAL_PORT, OSU_PORT, RUNNING_LOCAL } = require('./utilities/config.js');
 
 //set up mysql-session store
-//todo -
-// 1 - setup different environment option toggle
-// 2 - create real credentials and store in .env file
-//setup option code from https://www.npmjs.com/package/express-mysql-session -- Feb 6, 2022
 var options = getDBConnection();
 var sessionStore = new MySQLStore(options);
 

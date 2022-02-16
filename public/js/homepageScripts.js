@@ -6,7 +6,9 @@
 
 let numImages = 31;
 let imageArray;
-
+const runningLocal = false;
+const getRandomImageAPILOCAL = "http://localhost:3000/api/getRandomImage";
+const getRandomImageAPIOSU = "http://flip3.engr.oregonstate.edu:12073/api/getRandomImage";
 
 document.addEventListener("DOMContentLoaded", async function(event) {
   imageArray = setUpImageArray(numImages);
@@ -83,8 +85,9 @@ function popOffOneOfTheImages() {
 
 async function getRandomImage() {
   return new Promise((resolve, reject) => {
-
-    fetch("http://localhost:3000/api/getRandomImage", {   //TODO - move URL to function to get endpoint depending on whether running local or not
+    let randomImageURL = runningLocal ? getRandomImageAPILOCAL : getRandomImageAPIOSU;
+    //http://localhost:3000/api/getRandomImage
+    fetch(randomImageURL, {   //TODO - move URL to function to get endpoint depending on whether running local or not
       method: "GET",
       headers: {'Content-Type': 'application/json'}
     }).then(res => {
