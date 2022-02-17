@@ -110,3 +110,7 @@ async function getRandomImage() {
     });
   });
 }
+
+module.exports = {
+  getRandomNumber
+}

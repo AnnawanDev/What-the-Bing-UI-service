@@ -24,11 +24,10 @@ function getImageServiceURL() {
   }
 }
 
-////////
 async function getWordList() {
 	return new Promise((resolve, reject) => {
-			console.log("FETCHING FROM NOUN SERVICE");
-			let url = getNounURL(); console.log("URL: " + url);
+			logIt("FETCHING FROM NOUN SERVICE");
+			let url = getNounURL();
 
 		  axios.get(url)
 		  .then(function (response) {

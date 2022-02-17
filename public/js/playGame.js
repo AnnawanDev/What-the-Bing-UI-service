@@ -172,8 +172,6 @@ async function displayFinalWord() {
 }
 
 async function getFinalTerm() {
-
-
     return new Promise((resolve, reject) => {
       let getCurrentSearchTermURL = runningLocal ? getCurrentSearchTermAPILOCAL : getCurrentSearchTermAPIOSU;
       //http://localhost:3000/api/getCurrentSearchTerm
@@ -193,8 +191,6 @@ async function getFinalTerm() {
     });
 }
 
-
-//NEW
 async function fetchImages(searchTerm) {
     let url = runningLocal ? getCurrentImageAPILOCAL : getCurrentImageAPIOSU; //"http://localhost:3000/api/getCurrentImage";
     let headers = {};  //need to send cookie
@@ -208,8 +204,6 @@ async function fetchImages(searchTerm) {
         console.log("fetch images error: " + error);
     }
 }
-
-
 
 async function displayImages() {
     let images = await fetchImages(wordsToGuess[currentIndexForWordToGuess]);

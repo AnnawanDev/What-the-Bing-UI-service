@@ -8,7 +8,11 @@
     "start": "node ./src/app.js",
     "devl": "nodemon ./src/app.js -e js,css,handlebars",
     "startProd": "./node_modules/forever/bin/forever start src/app.js",
-    "stopProd": "./node_modules/forever/bin/forever stop src/app.js"
+    "stopProd": "./node_modules/forever/bin/forever stop src/app.js",
+    "test": "jest"
+  },
+  "jest":{
+      "testEnvironment": "node"
   },
   "keywords": [],
   "author": "Ed Wued",
@@ -26,6 +30,7 @@
     "underscore": "^1.13.2"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "nodemon": "^2.0.15"
   }
 }
