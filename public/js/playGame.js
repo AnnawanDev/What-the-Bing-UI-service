@@ -26,11 +26,6 @@ let theGameCountdownClock;
 const TOTAL_GAME_TIME = 90;
 
 document.addEventListener("DOMContentLoaded", async function(event) {
-  //mix up words
-  //OLD - moving to server side
-  // wordsToGuess = await getWordList();
-  // console.log(wordsToGuess);
-
   //set up initial game state so only instructions appear
   togglePlayVisibility();
 
@@ -82,8 +77,6 @@ function showBoardAndStartGame() {
   let totalGameTime = TOTAL_GAME_TIME;
 
   //set up initial game state so only instructions appear
-  //TODO: Need function to add/remove blocks from DOM rather than style.display
-  //document.getElementById('readyToPlayDiv').style.display = "none !important;";
   document.getElementById('getReadyToPlayImage').style.display = "none";
   document.getElementById('readyToPlayDiv').remove();
 
@@ -111,9 +104,6 @@ function increasePlayerScore() {
 }
 
 async function checkGuess() {
-  //todo - get word
-  //todo - sanitize user input
-
   let userInput = document.getElementById('inputGuessSearch').value.trim().toLowerCase();
 
   //clear out user guess
@@ -123,11 +113,9 @@ async function checkGuess() {
   let didUserGetCorrect = await checkGuessOnServer(userInput);
   console.log("didUserGetCorrect: " + didUserGetCorrect)
 
-  //TODO - need to do something here to prevent cheating
-
   if (didUserGetCorrect == "correct") {
     document.getElementById('userGuesses').innerHTML = "<p style=\"margin-top: 20px; color:#ffffff;\">YES! It was " + userInput.toLowerCase() + "</p>";
-    increasePlayerScore(); //TODO - make sure user can't hit the right answer multiple times for the same search term
+    increasePlayerScore();
     currentIndexForWordToGuess++;
     switchImagesToLoading();
     displayImages();
@@ -140,8 +128,8 @@ async function checkGuessOnServer(someGuess) {
   return new Promise((resolve, reject) => {
     let data = {guess: someGuess};
     let checkGuessURL = runningLocal ? checkGuessAPILOCAL : checkGuessAPIOSU;
-    //"http://localhost:3000/api/checkGuess"
-    fetch(checkGuessURL, {   //TODO - move URL to function to get endpoint depending on whether running local or not
+
+    fetch(checkGuessURL, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -149,7 +137,6 @@ async function checkGuessOnServer(someGuess) {
       console.log("Request complete! response:", res);
       return res.json();
     }).then((data) => {
-      //console.log ("DATA: " + data);
       console.log(data.answer);
       if (data.answer === 'correct') {
         resolve("correct");
@@ -157,7 +144,7 @@ async function checkGuessOnServer(someGuess) {
         resolve("not correct");
       }
     }).catch(function(error) {
-      console.log(error);    //TODO - do something with this error handling
+      console.log(error);
       reject("something went wrong: " + error);
     });
   });
@@ -174,26 +161,25 @@ async function displayFinalWord() {
 async function getFinalTerm() {
     return new Promise((resolve, reject) => {
       let getCurrentSearchTermURL = runningLocal ? getCurrentSearchTermAPILOCAL : getCurrentSearchTermAPIOSU;
-      //http://localhost:3000/api/getCurrentSearchTerm
-      fetch(getCurrentSearchTermURL, {   //TODO - move URL to function to get endpoint depending on whether running local or not
+
+      fetch(getCurrentSearchTermURL, {
         method: "GET",
         headers: {'Content-Type': 'application/json'},
       }).then(res => {
-        //console.log("Request complete! response:", res);
         return res.json();
       }).then((data) => {
         console.log ("DATA: " + data.searchTerm);
         resolve(data.searchTerm);
       }).catch(function(error) {
-        console.log(error);    //TODO - do something with this error handling
+        console.log(error);
         reject("something went wrong: " + error);
       });
     });
 }
 
 async function fetchImages(searchTerm) {
-    let url = runningLocal ? getCurrentImageAPILOCAL : getCurrentImageAPIOSU; //"http://localhost:3000/api/getCurrentImage";
-    let headers = {};  //need to send cookie
+    let url = runningLocal ? getCurrentImageAPILOCAL : getCurrentImageAPIOSU;
+    let headers = {};
     try {
         let res = await fetch(url, {
           method: 'GET',
@@ -208,8 +194,6 @@ async function fetchImages(searchTerm) {
 async function displayImages() {
     let images = await fetchImages(wordsToGuess[currentIndexForWordToGuess]);
 
-    //TODO - switch to for loop
-    //TODO - need to check for 4xx on image so a broken image is not displayed
     let container0 = document.querySelector('#image0');
     container0.src = `${images.imagePath0}`;
 
@@ -236,10 +220,6 @@ async function displayImages() {
 }
 
 function switchImagesToLoading() {
-  // for (let i = 0; i++; i < 8) {
-  //   document.getElementById('image' + i).src = "/images/loading.jpg";
-  // }
-
   document.getElementById('image0').src = "/images/loading.jpg";
   document.getElementById('image1').src = "/images/loading.jpg";
   document.getElementById('image2').src = "/images/loading.jpg";
@@ -269,7 +249,6 @@ function startGame(totalGameTime) {
       }
 
       document.getElementById('gameTimer').innerHTML = timeToDisplay;
-      //console.log("time left: " + timeToDisplay);
       starting++;
     }
   }, 1000);

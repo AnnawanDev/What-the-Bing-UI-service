@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", async function(event) {
 
   //randomize images
   setInterval(randomizeImageSquares, 1000);
-
-
 });
 
 function showHideDescriptionText() {
@@ -33,7 +31,6 @@ function showHideDescriptionText() {
 
 async function randomizeImageSquares() {
   let imageID = "image" + getRandomNumber(9);
-  //let imageSrc = '/images/home-loading/image' + getRandomNumber(14) + '.jpg';
 
   //get random number
   let randomNumber = getRandomNumber(100);
@@ -50,7 +47,7 @@ async function randomizeImageSquares() {
 
   //image #4 is the text "Play What the Bing" so don't change that
   if (imageID != "image4") {
-    document.getElementById(imageID).src = itemToShow; //imageSrc;
+    document.getElementById(imageID).src = itemToShow;
   }
 }
 
@@ -76,18 +73,15 @@ function popOffOneOfTheImages() {
   }
 
   let getRandomNumberToPop = getRandomNumber(arrayLength);
-  //console.log("item to remove: " + getRandomNumberToPop);
   let item = imageArray.splice(getRandomNumberToPop, 1);
-  //console.log(item);
-  //console.log("ENDING: " + imageArray);
+
   return item;
 }
 
 async function getRandomImage() {
   return new Promise((resolve, reject) => {
     let randomImageURL = runningLocal ? getRandomImageAPILOCAL : getRandomImageAPIOSU;
-    //http://localhost:3000/api/getRandomImage
-    fetch(randomImageURL, {   //TODO - move URL to function to get endpoint depending on whether running local or not
+    fetch(randomImageURL, {
       method: "GET",
       headers: {'Content-Type': 'application/json'}
     }).then(res => {
@@ -97,15 +91,8 @@ async function getRandomImage() {
 
       console.log("IMAGE: " + data.imagePath0);
       resolve(data.imagePath0);
-      //console.log ("DATA: " + data);
-      // console.log(data.answer);
-      // if (data.answer === 'correct') {
-      //   resolve("correct");
-      // } else {
-      //   resolve("not correct");
-      // }
     }).catch(function(error) {
-      console.log(error);    //TODO - do something with this error handling
+      console.log(error);   
       reject("something went wrong: " + error);
     });
   });

@@ -28,20 +28,15 @@ async function getWordList() {
 	return new Promise((resolve, reject) => {
 			logIt("FETCHING FROM NOUN SERVICE");
 			let url = getNounURL();
-
 		  axios.get(url)
 		  .then(function (response) {
-		    // handle success
-		    //res.status(200).send(response.data);
 				wordlist = response.data;
 				console.log(wordlist);
 				let wordsInNewOrder = _.shuffle(wordlist)
 				resolve(wordsInNewOrder);
 		  })
 		  .catch(function (error) {
-		    // handle error
 		    console.log("ERROR: " + error);
-		    //res.status(500).send(error);
 				reject(error);
 		  })
 	});

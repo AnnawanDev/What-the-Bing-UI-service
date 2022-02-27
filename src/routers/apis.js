@@ -11,18 +11,15 @@ const _ = require('underscore');
 const { logIt, getWordList, getImageServiceURL } = require('../utilities/helperFunctions.js');
 
 router.get('/api/getCurrentImage', async (req, res) => {
-	//TODO: Check for valid session
 
   let searchTerm = req.session.wordsToGuess[req.session.currentWordIndex];
   let url = getImageServiceURL() + searchTerm + "/8";
 	logIt("URL to fetch: " + url);
   axios.get(url)
   .then(function (response) {
-    // handle success
     res.status(200).send(response.data);
   })
   .catch(function (error) {
-    // handle error
     logIt("ERROR: " + error);
     res.status(500).send(error);
   })
@@ -40,7 +37,6 @@ router.post('/api/checkGuess', async (req, res) => {
 		req.session.currentWordIndex++;
 		console.log("yes - user guess was correct");
 		msg = {"answer":"correct"};
-		//TODO - need to do something here to (1) increment score (2) make sure user isn't above timer
 	} else {
 		console.log("no - user guess was *not* correct");
 		msg = {"answer":"wrong"}
@@ -50,12 +46,8 @@ router.post('/api/checkGuess', async (req, res) => {
 });
 
 router.get('/api/getCurrentSearchTerm', async (req, res) => {
-	//TODO: Check for valid session -- only return value if session is valid
-
   const searchTerm = req.session.wordsToGuess[req.session.currentWordIndex];
 	logIt("RETURNING SEARCH TERM: " + searchTerm);
-
-	//TODO: capture game stats?  make sure that time wasn't greater than 90 seconds?
 
 	//destroy the session so that new game is on another session
 	req.session.destroy();
@@ -78,11 +70,9 @@ router.get('/api/getRandomImage', async (req, res) => {
 	console.log("URL to fetch: " + url);
   axios.get(url)
   .then(function (response) {
-    // handle success
     res.status(200).send(response.data);
   })
   .catch(function (error) {
-    // handle error
     console.log("ERROR: " + error);
     res.status(500).send(error);
   })
