@@ -6,7 +6,7 @@
 
 let numImages = 31;
 let imageArray;
-const runningLocal = false;
+const runningLocal = true;
 const getRandomImageAPILOCAL = "http://localhost:3000/api/getRandomImage";
 const getRandomImageAPIOSU = "http://flip3.engr.oregonstate.edu:12073/api/getRandomImage";
 
