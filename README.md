@@ -2,7 +2,7 @@
 This is the UI service for the "What the Bing?" Game
 
 
-## Running Game at OSU (VPN required)
+## Running Game at OSU (VPN access required)
 http://flip3.engr.oregonstate.edu:12073/
 
 
@@ -26,3 +26,11 @@ SESSION_PASSWORD={some super secret password}
 ### Production
 * Build and Run with Forever: `npm run prod`
 * Stop Forever Production Run: `npm run stopProd`
+
+
+## Sequence Diagram - How a game is started
+![How a game is started](./How-a-game-is-started.png)
+
+## Supporting microservices
+* [Image Service](https://github.com/AnnawanDev/What-the-Bing-Image-Service)
+* [Noun Service](https://github.com/AnnawanDev/What-the-Bing-noun-importer-service)
