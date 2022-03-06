@@ -31,6 +31,8 @@ SESSION_PASSWORD={some super secret password}
 ## Sequence Diagram - How a game is started
 ![How a game is started](./How-a-game-is-started.png)
 
-## Supporting microservices
+
+## What the Bing?! Microservices
+* [UI Service](https://github.com/AnnawanDev/What-the-Bing-UI-service)
 * [Image Service](https://github.com/AnnawanDev/What-the-Bing-Image-Service)
 * [Noun Service](https://github.com/AnnawanDev/What-the-Bing-noun-importer-service)
