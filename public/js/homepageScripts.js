@@ -13,10 +13,11 @@ const getRandomImageAPIOSU = "http://flip3.engr.oregonstate.edu:12073/api/getRan
 document.addEventListener("DOMContentLoaded", async function(event) {
   imageArray = setUpImageArray(numImages);
 
-  //randomize images
+  //chooses a random square to update once every second
   setInterval(randomizeImageSquares, 1000);
 });
 
+//shows or hides the extra description text on the homepage
 function showHideDescriptionText() {
   let currentState = document.getElementById('addedDescription').style.display;
   if (currentState === "none") {
@@ -29,15 +30,15 @@ function showHideDescriptionText() {
   return false;
 }
 
+//chooses a random square to load an image
 async function randomizeImageSquares() {
   let imageID = "image" + getRandomNumber(9);
 
-  //get random number
-  let randomNumber = getRandomNumber(100);
-
   //get random image to update
-  //if randomNumber is < 3, then chose from Bing API from a random word
+  //if randomNumber is < 10, then chose from Bing API from a random word
   //otherwise, choose default image to load
+  //takes most (90%) images from disk rather than through API so they load faster
+  let randomNumber = getRandomNumber(100);
   let itemToShow;
   if (randomNumber < 10) {
     itemToShow = await getRandomImage();
@@ -78,6 +79,7 @@ function popOffOneOfTheImages() {
   return item;
 }
 
+//gets a random image to display in one of the squares on the homepage
 async function getRandomImage() {
   return new Promise((resolve, reject) => {
     let randomImageURL = runningLocal ? getRandomImageAPILOCAL : getRandomImageAPIOSU;
@@ -92,7 +94,7 @@ async function getRandomImage() {
       console.log("IMAGE: " + data.imagePath0);
       resolve(data.imagePath0);
     }).catch(function(error) {
-      console.log(error);   
+      console.log(error);
       reject("something went wrong: " + error);
     });
   });
